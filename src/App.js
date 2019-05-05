@@ -1,26 +1,16 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import moment from 'moment';
+import Calendar from './components/Calendar/Calendar'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    console.log('moment: ', moment);
+    return (
+        <div style={{padding:'0 30px'}}>
+            <Calendar/>
+        </div>
+    );
 }
 
 export default App;

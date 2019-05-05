@@ -1,5 +1,26 @@
+@import "../../constants/colors"
+@import "../../constants/fonts"
+
+.test
+  border: solid 1px red
+
 .container
-  display: flex
-  width: 50px
-  height: 50px
-  background-color: #61dafb
+  width: 40pt
+  height: 40pt
+  background-color: white
+  text-align: center
+  vertical-align: center
+  color: $calendarDarkBlue
+  font-size: $fontSizeNormal
+  font-family: $fontFamily
+  font-weight: 400
+
+
+  .dateValueContainer
+    text-align: center
+    vertical-align: center
+
+
+.currentDay
+  background-color: $calendarDarkBlue
+  color: $textColor

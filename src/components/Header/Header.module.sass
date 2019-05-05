@@ -1,0 +1,67 @@
+@import "../../constants/colors"
+@import "../../constants/fonts"
+
+.container
+  color: white
+  background: $appBlue
+  width: 100%
+  padding: 0 16pt
+  position: relative
+
+.headerNav
+  height: 40pt
+  width: 100%
+  display: flex
+  align-items: center
+  justify-content: space-between
+  font-family: $fontFamily
+  font-size: $fontSizeNormal
+  font-weight: 800
+
+  .prevNext
+    text-transform: uppercase
+    color: $appGreen
+    cursor: pointer
+
+  .currentContainer
+    cursor: pointer
+
+    .current
+      margin-right: 10.5pt
+
+    .dropDownButton
+      color: $appGray
+      opacity: 25%
+
+.dropContent
+  height: 44pt
+  //width: 100%
+  display: flex
+  align-items: center
+  justify-content: center
+  background-color: $appBlue
+  position: absolute
+  z-index: 1
+  left: 0
+  right: 0
+
+  div
+    border: 1pt solid $appGray
+    color: $appGray
+    width: 118pt
+    height: 30pt
+    opacity: 25%
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 15pt
+    cursor: pointer
+    margin: 0 3pt
+    font-weight: 400
+    font-size: $fontSizeMiddle
+    font-family: $fontFamily
+
+
+
+
+

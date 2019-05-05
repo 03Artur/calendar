@@ -4,6 +4,7 @@ import moment from 'moment';
 import {calendarMode} from '../../constants/enums';
 import Header from '../Header/Header';
 import EventList from '../EventList/EventList';
+import styles from './Calendar.module.sass';
 
 
 function Calendar(props) {
@@ -23,9 +24,10 @@ function Calendar(props) {
 
 
     return (
-        <div>
-            <Header onNextClick={this.onNextClick} onPrevClick={this.onPrevClick}/>
-            <div></div>
+        <div className={styles.container}>
+            <Header onNextClick={onNextClick} onPrevClick={onPrevClick}/>
+            <table>
+            </table>
             <EventList/>
         </div>
     );
