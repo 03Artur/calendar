@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 import styles from './Header.module.sass'
+import {calendarMode} from '../../constants/enums'
 
 class Header extends Component {
 
@@ -14,34 +15,36 @@ class Header extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener('mouseup', this.handleClickOutside);
+        document.addEventListener('mousedown', this.handleClickOutside);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('mouseup', this.handleClickOutside);
+        document.removeEventListener('mousedown', this.handleClickOutside);
     }
 
     handleClickOutside = (e) => {
-        if (this._dropDownRef.contains(e.target)) {
-            return;
+        if (this._dropDownButton && !this._dropDownButton.contains(e.target)&& this._DropDownContent && !this._DropDownContent.contains(e.target)) {
+            this.setState({isMenuOpen: false});
         }
-        this.setState({isMenuOpen: false});
     };
 
     onDropDownButtonClick = (e) => {
         this.setState({isMenuOpen: !this.state.isMenuOpen});
     };
 
-    getDropDownRef = (node) => {
-        this._dropDownRef = node;
+    setDropDownButton = (node) => {
+        this._dropDownButton = node;
+    };
+    setDropDownContent = (node) => {
+        this._DropDownContent = node;
     };
 
     renderMenu = () => {
         if (this.state.isMenuOpen) {
             return (
-                <div className={styles.dropContent}>
-                    <div>This week</div>
-                    <div>This month</div>
+                <div ref = {this.setDropDownContent} className={styles.dropContent}>
+                    <div onClick={() =>{ this.props.onModeChange(calendarMode.WEEK);this.onDropDownButtonClick()}}>This week</div>
+                    <div onClick={() =>{ this.props.onModeChange(calendarMode.MONTH);this.onDropDownButtonClick()}}>This month</div>
                 </div>
             );
         }
@@ -54,7 +57,8 @@ class Header extends Component {
                     <span onClick={this.props.onPrevClick} className={styles.prevNext}>{
                         this.props.prev
                     }</span>
-                    <div className={styles.currentContainer} ref={this.getDropDownRef} onClick={this.onDropDownButtonClick}>
+                    <div ref={this.setDropDownButton} className={styles.currentContainer}
+                         onClick={this.onDropDownButtonClick}>
                         <span className={styles.current}>{this.props.current}</span>
                         <FontAwesomeIcon className={styles.dropDownButton}
                                          icon={this.state.isMenuOpen ? faChevronUp : faChevronDown}/>
@@ -77,6 +81,7 @@ Header.propTypes = {
     current: PropTypes.string,
     onPrevClick: PropTypes.func,
     onNextClick: PropTypes.func,
+    onModeChange: PropTypes.func,
 };
 
 Header.defaultProps = {
@@ -84,11 +89,14 @@ Header.defaultProps = {
     next: 'NEXT',
     current: 'CURRENT',
     onPrevClick: function (e) {
-
+        console.log('onPrevClick')
     },
     onNextClick: function (e) {
-
+        console.log('onNextClick')
     },
+    onModeChange: function () {
+
+    }
 };
 
 

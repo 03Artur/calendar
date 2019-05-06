@@ -1,4 +1,4 @@
-export let db = [
+export default [
     {
         date: '20.06.2019',
         events: [
