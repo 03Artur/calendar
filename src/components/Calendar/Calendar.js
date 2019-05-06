@@ -20,9 +20,8 @@ export default function Calendar(props) {
         console.log("onNextClick");
     };
     const changeMode = (value) => {
-        if (mode !== value) {
             setMode(value);
-        }
+
     };
     useEffect(() => {
         console.log(mode)
@@ -41,7 +40,7 @@ export default function Calendar(props) {
                 <span>S</span>
             </div>
 
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi architecto cupiditate dolorem
+            <p onClick={()=>console.log('p')}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi architecto cupiditate dolorem
                 nesciunt obcaecati omnis perspiciatis quam sit tempore.</p>
 
             <EventList/>
