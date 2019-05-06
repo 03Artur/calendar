@@ -19,17 +19,14 @@ export default function Calendar(props) {
     const onNextClick = () => {
         console.log("onNextClick");
     };
-    const changeMode = (value) => {
-            setMode(value);
 
-    };
     useEffect(() => {
         console.log(mode)
     }, [mode])
 
     return (
         <div className={styles.container}>
-            <Header onModeChange={changeMode} onNextClick={onNextClick} onPrevClick={onPrevClick}/>
+            <Header onModeChange={setMode} onNextClick={onNextClick} onPrevClick={onPrevClick}/>
             <div className={styles.tableHeader}>
                 <span>S</span>
                 <span>M</span>
