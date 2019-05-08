@@ -5,7 +5,9 @@ import {calendarMode} from '../../constants/enums';
 import Header from '../Header/Header';
 import EventList from '../EventList/EventList';
 import styles from './Calendar.module.sass';
-import db from '../../constants/databaseSimulation'
+import db from '../../constants/databaseSimulation';
+
+import Day from '../Day/Day';
 
 export default function Calendar(props) {
 
@@ -24,7 +26,15 @@ export default function Calendar(props) {
         console.log(mode)
     }, [mode]);
 
-
+    const renderBody = () => {
+        const date = moment().startOf('week');
+      return (
+          <div>
+              {
+              }
+          </div>
+      );
+    };
 
     return (
         <div className={styles.container}>

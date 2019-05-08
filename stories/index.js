@@ -5,13 +5,12 @@ import Header from '../src/components/Header/Header'
 import Calendar from '../src/components/Calendar/Calendar'
 import moment from 'moment/moment';
 import styles from './index.module.sass';
+import Week from '../src/components/Week/Week';
 
 storiesOf('Day', module)
     .add('current', () => (
             <div className={styles.dayContainer}>
-                {
-                    console.log(moment().diff(moment(),'days'))
-                }
+
                 <Day date={moment()} events={[
                     {
                         name: 'event name',
@@ -30,4 +29,8 @@ storiesOf('Calendar header', module)
 storiesOf('Calendar', module)
     .add('calendar', () => (
         <Calendar/>
+    ));
+storiesOf('Week', module)
+    .add('Week', () => (
+        <Week week={19}/>
     ));
