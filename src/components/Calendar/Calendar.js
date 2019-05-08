@@ -9,7 +9,7 @@ import db from '../../constants/databaseSimulation'
 
 export default function Calendar(props) {
 
-    const [selectedDay, setSelectedDay] = useState(null);
+    const [selectedDay, setSelectedDay] = useState(moment());
     const [mode, setMode] = useState(calendarMode.MONTH);
 
     const onPrevClick = () => {
@@ -22,11 +22,13 @@ export default function Calendar(props) {
 
     useEffect(() => {
         console.log(mode)
-    }, [mode])
+    }, [mode]);
+
+
 
     return (
         <div className={styles.container}>
-            <Header onModeChange={setMode} onNextClick={onNextClick} onPrevClick={onPrevClick}/>
+            <Header current={selectedDay.format('MMMM')} onModeChange={setMode} onNextClick={onNextClick} onPrevClick={onPrevClick}/>
             <div className={styles.tableHeader}>
                 <span>S</span>
                 <span>M</span>

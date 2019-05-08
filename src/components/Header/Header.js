@@ -5,7 +5,7 @@ import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 import styles from './Header.module.sass'
 import {calendarMode} from '../../constants/enums'
 
-class Header extends Component {
+export default class Header extends Component {
 
     constructor(props) {
         super(props);
@@ -16,11 +16,11 @@ class Header extends Component {
 
     componentDidMount() {
         document.addEventListener('mousedown', this.handleClickOutside);
-    }
+    };
 
     componentWillUnmount() {
         document.removeEventListener('mousedown', this.handleClickOutside);
-    }
+    };
 
     handleClickOutside = (e) => {
         if ((this._dropDownButton && !this._dropDownButton.contains(e.target)) && this._dropDownContent && !this._dropDownContent.contains(e.target)) {
@@ -29,13 +29,9 @@ class Header extends Component {
 
     };
 
-    onDropDownButtonClick = (e) => {
+    onDropDownButtonClick = () => {
         this.setState({isMenuOpen: !this.state.isMenuOpen});
     };
-    /*
-    *
-    * ref callback
-    * */
 
     setDropDownButton = (node) => {
         this._dropDownButton = node;
@@ -54,29 +50,47 @@ class Header extends Component {
         if (this.state.isMenuOpen) {
             return (
                 <div ref={this.setDropDownContent} className={styles.dropContent}>
-                    <div onClick={() => {this.changeMode(calendarMode.WEEK);}}>This week</div>
-                    <div onClick={() => {this.changeMode(calendarMode.MONTH);}}>This month</div>
+                    <div onClick={() => {
+                        this.changeMode(calendarMode.WEEK);
+                    }}>This week
+                    </div>
+                    <div onClick={() => {
+                        this.changeMode(calendarMode.MONTH);
+                    }}>This month
+                    </div>
                 </div>
             );
         }
     };
 
     render() {
+
+        const chevron = this.state.isMenuOpen ? faChevronUp : faChevronDown;
+
         return (
             <div className={styles.container}>
                 <div className={styles.headerNav}>
-                    <span onClick={this.props.onPrevClick} className={styles.prevNext}>{
-                        this.props.prev
-                    }</span>
-                    <div
-                        ref={this.setDropDownButton} className={styles.currentContainer}
-                        onClick={this.onDropDownButtonClick}>
-                        <span className={styles.current}>{this.props.current}</span>
-                        <FontAwesomeIcon className={styles.dropDownButton}
-                                         icon={this.state.isMenuOpen ? faChevronUp : faChevronDown}/>
+                    <span onClick={this.props.onPrevClick} className={styles.prevNext}>
+                        {
+                            this.props.prev
+                        }
+                    </span>
+
+                    <div onClick={this.onDropDownButtonClick} className={styles.currentContainer}
+                         ref={this.setDropDownButton}>
+                        <span className={styles.current}>
+                            {
+                                this.props.current
+                            }
+                        </span>
+                        <FontAwesomeIcon className={styles.dropDownButton} icon={chevron}/>
                     </div>
-                    <span onClick={this.props.onNextClick}
-                          className={styles.prevNext}>{this.props.next}</span>
+
+                    <span onClick={this.props.onNextClick} className={styles.prevNext}>
+                        {
+                            this.props.next
+                        }
+                    </span>
                 </div>
                 {
                     this.renderMenu()
@@ -84,7 +98,6 @@ class Header extends Component {
             </div>
         );
     }
-
 }
 
 Header.propTypes = {
@@ -100,16 +113,12 @@ Header.defaultProps = {
     prev: 'PREV',
     next: 'NEXT',
     current: 'CURRENT',
-    onPrevClick: function (e) {
-        console.log('onPrevClick')
+    onPrevClick: function () {
     },
-    onNextClick: function (e) {
-        console.log('onNextClick')
+    onNextClick: function () {
     },
     onModeChange: function () {
 
-    }
+    },
 };
 
-
-export default Header;
