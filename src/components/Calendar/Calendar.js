@@ -8,6 +8,8 @@ import styles from './Calendar.module.sass';
 import db from '../../constants/databaseSimulation';
 
 import Day from '../Day/Day';
+import Week from '../Week/Week';
+
 
 export default function Calendar(props) {
 
@@ -28,12 +30,25 @@ export default function Calendar(props) {
 
     const renderBody = () => {
         const date = moment().startOf('week');
-      return (
-          <div>
-              {
-              }
-          </div>
-      );
+        switch (mode) {
+
+            case calendarMode.WEEK:
+                return weekRender();
+                break;
+            case  calendarMode.MONTH:
+                return monthRender();
+                break;
+
+        }
+
+    };
+
+    const weekRender = () => {
+
+    };
+
+    const monthRender = () => {
+
     };
 
     return (
@@ -48,6 +63,14 @@ export default function Calendar(props) {
                 <span>F</span>
                 <span>S</span>
             </div>
+            {
+                renderBody()
+            }
+            <Week week={18}/>
+            <Week week={19}/>
+            <Week week={20}/>
+            <Week week={21}/>
+            <Week week={22}/>
 
             <p onClick={()=>console.log('p')}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi architecto cupiditate dolorem
                 nesciunt obcaecati omnis perspiciatis quam sit tempore.</p>

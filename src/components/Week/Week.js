@@ -16,7 +16,7 @@ export default class Week extends Component {
 
         for (let i = 0; i < 7; i++) {
             const date = moment(`${this.props.week} ${i}`, 'w e');
-            dates.push(<Day key ={date.unix()} date={date}/>)
+            dates.push(<Day selectedDate={this.props.selectedDate} key ={date.unix()} date={date}/>)
         }
         return dates;
     };
@@ -34,4 +34,5 @@ export default class Week extends Component {
 
 Week.propTypes = {
     week: PropTypes.number,
+    selectedDate: PropTypes.instanceOf(moment),
 };
