@@ -4,19 +4,20 @@ import styles from './Day.module.sass';
 import moment from "moment";
 
 
-export default function Day({date, selectedDate, events, onSelected, ...props}) {
+export default function Day({date, isToday, isSelected, events, onSelected, ...props}) {
 
     const classNames = [styles.container];
-    if (moment().format('YYYY-MM-DD') === selectedDate.format('YYYY-MM-DD')) {
+    if (isSelected) {
         classNames.push(styles.selected);
     }
+
 
     return (
         <div onClick={() => onSelected(date)}
              className={classNames.join(' ')}>
-            <div className={styles.round}></div>
+            <div className={isToday ? styles.round : ''}/>
             <div className={styles.date}>{date.date()}</div>
-            <div className={styles.event}></div>
+            <div className={events?styles.event:''}/>
         </div>
     );
 }
@@ -25,7 +26,14 @@ Day.propTypes = {
     date: PropTypes.instanceOf(moment),
     events: PropTypes.arrayOf(PropTypes.object),
     isToday: PropTypes.bool,
-    selectedDate: PropTypes.instanceOf(moment),
+    isSelected: PropTypes.bool,
 
+};
+
+Day.defaultProps = {
+    date: moment(),
+    events: null,
+    isToday: false,
+    isSelected: false,
 };
 

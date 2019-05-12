@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 import styles from './Header.module.sass'
 import {calendarMode} from '../../constants/enums'
+import moment from "moment";
 
 export default class Header extends Component {
 
@@ -66,6 +67,12 @@ export default class Header extends Component {
     render() {
 
         const chevron = this.state.isMenuOpen ? faChevronUp : faChevronDown;
+        let currentMonthName = this.props.date.format('MMMM');
+        if(this.props.mode === calendarMode.WEEK)
+        {
+            currentMonthName += ` ${this.props.date.startOf("week").date()} - ${this.props.date.endOf("week").date()}`
+        }
+
 
         return (
             <div className={styles.container}>
@@ -80,7 +87,7 @@ export default class Header extends Component {
                          ref={this.setDropDownButton}>
                         <span className={styles.current}>
                             {
-                                this.props.current
+                                currentMonthName
                             }
                         </span>
                         <FontAwesomeIcon className={styles.dropDownButton} icon={chevron}/>
@@ -103,16 +110,17 @@ export default class Header extends Component {
 Header.propTypes = {
     prev: PropTypes.string,
     next: PropTypes.string,
-    current: PropTypes.string,
+    date: PropTypes.instanceOf(moment),
     onPrevClick: PropTypes.func,
     onNextClick: PropTypes.func,
     onModeChange: PropTypes.func,
+    mode: PropTypes.oneOf(Object.values(calendarMode)),
 };
 
 Header.defaultProps = {
     prev: 'PREV',
     next: 'NEXT',
-    current: 'CURRENT',
+    date: moment(),
     onPrevClick: function () {
     },
     onNextClick: function () {
@@ -120,5 +128,6 @@ Header.defaultProps = {
     onModeChange: function () {
 
     },
+    mode: calendarMode.MONTH,
 };
 

@@ -7,7 +7,10 @@
 .selected
   color: white
   background-color: $appBlue
-  border-radius: 6pt
+
+.otherMonth
+  color: $appGray
+
 
 .container
   width: 100%
@@ -18,6 +21,11 @@
   flex-direction: column
   align-items: center
   justify-content: center
+  cursor: pointer
+  border-radius: 6pt
+  box-sizing: border-box
+  &:hover
+    border: 3pt solid $appBlue
 
 
   .date

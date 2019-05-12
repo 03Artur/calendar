@@ -8,7 +8,7 @@ import styles from './index.module.sass';
 import Week from '../src/components/Week/Week';
 
 storiesOf('Day', module)
-    .add('current', () => (
+    .add('date', () => (
             <div className={styles.dayContainer}>
 
                 <Day date={moment()} events={[
