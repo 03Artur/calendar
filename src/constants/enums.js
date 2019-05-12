@@ -1,4 +1,4 @@
-export const calendarMode = {
-    WEEK: 'WEEK',
-    MONTH: 'MONTH',
+export const calendarFormat = {
+    WEEK: 'w',
+    MONTH: 'M',
 };

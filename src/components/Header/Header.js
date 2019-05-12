@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 import styles from './Header.module.sass'
-import {calendarMode} from '../../constants/enums'
+import {calendarFormat} from '../../constants/enums'
 import moment from "moment";
 
 export default class Header extends Component {
@@ -52,11 +52,11 @@ export default class Header extends Component {
             return (
                 <div ref={this.setDropDownContent} className={styles.dropContent}>
                     <div onClick={() => {
-                        this.changeMode(calendarMode.WEEK);
+                        this.changeMode(calendarFormat.WEEK);
                     }}>This week
                     </div>
                     <div onClick={() => {
-                        this.changeMode(calendarMode.MONTH);
+                        this.changeMode(calendarFormat.MONTH);
                     }}>This month
                     </div>
                 </div>
@@ -67,12 +67,6 @@ export default class Header extends Component {
     render() {
 
         const chevron = this.state.isMenuOpen ? faChevronUp : faChevronDown;
-        let currentMonthName = this.props.date.format('MMMM');
-        if(this.props.mode === calendarMode.WEEK)
-        {
-            currentMonthName += ` ${this.props.date.startOf("week").date()} - ${this.props.date.endOf("week").date()}`
-        }
-
 
         return (
             <div className={styles.container}>
@@ -82,17 +76,15 @@ export default class Header extends Component {
                             this.props.prev
                         }
                     </span>
-
                     <div onClick={this.onDropDownButtonClick} className={styles.currentContainer}
                          ref={this.setDropDownButton}>
                         <span className={styles.current}>
                             {
-                                currentMonthName
+                                this.props.current
                             }
                         </span>
                         <FontAwesomeIcon className={styles.dropDownButton} icon={chevron}/>
                     </div>
-
                     <span onClick={this.props.onNextClick} className={styles.prevNext}>
                         {
                             this.props.next
@@ -109,18 +101,17 @@ export default class Header extends Component {
 
 Header.propTypes = {
     prev: PropTypes.string,
+    current: PropTypes.string,
     next: PropTypes.string,
-    date: PropTypes.instanceOf(moment),
     onPrevClick: PropTypes.func,
     onNextClick: PropTypes.func,
     onModeChange: PropTypes.func,
-    mode: PropTypes.oneOf(Object.values(calendarMode)),
 };
 
 Header.defaultProps = {
     prev: 'PREV',
+    current: moment().format('MMMM'),
     next: 'NEXT',
-    date: moment(),
     onPrevClick: function () {
     },
     onNextClick: function () {
@@ -128,6 +119,5 @@ Header.defaultProps = {
     onModeChange: function () {
 
     },
-    mode: calendarMode.MONTH,
 };
 
