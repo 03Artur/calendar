@@ -38,7 +38,6 @@ export default class Calendar extends Component {
         console.log(newLastDate.format('YYYY-MM-DD'));
         console.groupEnd();
 
-
         if (newFirstDate.month() !== newLastDate.month()) {
             newFirstDate.month(newLastDate.month()).startOf('M')
         }
@@ -65,7 +64,6 @@ export default class Calendar extends Component {
             firstDate: newFirstDate,
             lastDate: newLastDate,
         });
-
     };
 
 
@@ -78,9 +76,9 @@ export default class Calendar extends Component {
         }
     };
 
-    dayRender = (date) => (<Day date={date} events={db.find((elem) => elem.date === date.format('DD.MM.YYYY'))}
-                                isSelected={this.state.selectedDate && this.state.selectedDate.isSame(date, "date")}
-                                onSelected={this.onSelectedDay} isToday={this.state.today.isSame(date, "date")}/>);
+    dayRender = (date) => (<Day date={date} events={db.find((elem) => elem.date === date.format('DD.MM.YYYY'))} selectedDate={this.state.selectedDate} today={this.state.today}
+
+                                onSelected={this.onSelectedDay} />);
 
     weekRender = () => {
         const dates = [];
