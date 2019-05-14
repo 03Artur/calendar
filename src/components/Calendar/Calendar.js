@@ -1,4 +1,5 @@
 import React, {Component, useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import {calendarMode} from '../../constants/enums';
 import Header from '../Header/Header';
@@ -33,18 +34,10 @@ export default class Calendar extends Component {
         const newFirstDate = this.state.firstDate.clone().subtract(1, this.state.mode).startOf(this.state.mode);
 
         const newLastDate = this.state.lastDate.clone().subtract(1, this.state.mode).endOf(this.state.mode);
-        console.group('1');
-        console.log(newFirstDate.format('YYYY-MM-DD'));
-        console.log(newLastDate.format('YYYY-MM-DD'));
-        console.groupEnd();
 
         if (newFirstDate.month() !== newLastDate.month()) {
             newFirstDate.month(newLastDate.month()).startOf('M')
         }
-        console.group('2');
-        console.log(newFirstDate.format('YYYY-MM-DD'));
-        console.log(newLastDate.format('YYYY-MM-DD'));
-        console.groupEnd();
 
         this.setState({
             firstDate: newFirstDate,
@@ -70,7 +63,7 @@ export default class Calendar extends Component {
     renderBody = () => {
         switch (this.state.mode) {
             case calendarMode.WEEK:
-                return this.weekRender();
+                return this.weekRender(this.state.firstDate.clone());
             case  calendarMode.MONTH:
                 return this.monthRender();
         }
@@ -80,29 +73,29 @@ export default class Calendar extends Component {
 
                                 onSelected={this.onSelectedDay} />);
 
-    weekRender = () => {
+    weekRender = (date) => {
         const dates = [];
-        const date = this.state.firstDate.clone();
         for (let i = 0; i < 7; i++) {
-            if (i < this.state.firstDate.day() || date.isAfter(this.state.lastDate, "date")) {
+            if (date.day() < this.state.firstDate.day() || date.isAfter(this.state.lastDate, "date")) {
                 dates.push(<div className={styles.fakeDay}/>);
             } else {
                 dates.push(this.dayRender(date.clone()));
                 date.add(1, "d");
             }
         }
-
         return <div className={styles.week}>{
             dates
         }</div>
-
     }
     ;
 
     monthRender = () => {
-        const dates = [];
         const date = this.state.firstDate.clone();
+        const weeks = [];
+        do {
 
+        }while (false);
+        return weeks;
     };
 
     setMode = (mode) => {
@@ -161,8 +154,11 @@ export default class Calendar extends Component {
     }
 
 
-}
-;
+};
+
+Calendar.propTypes = {
+    events: PropTypes.arrayOf(PropTypes.object),
+};
 
 
 

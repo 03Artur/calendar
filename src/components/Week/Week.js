@@ -8,7 +8,6 @@ import styles from './Week.module.sass';
 export default class Week extends Component {
     constructor(props) {
         super(props);
-        console.log( moment('20 2','w e').format('YYYY-MM-DD'));
     }
 
     renderDates = () => {
