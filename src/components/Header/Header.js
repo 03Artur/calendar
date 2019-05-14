@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 import styles from './Header.module.sass'
-import {calendarFormat} from '../../constants/enums'
+import {calendarMode} from '../../constants/enums'
 import moment from "moment";
 
 export default class Header extends Component {
@@ -52,11 +52,11 @@ export default class Header extends Component {
             return (
                 <div ref={this.setDropDownContent} className={styles.dropContent}>
                     <div onClick={() => {
-                        this.changeMode(calendarFormat.WEEK);
+                        this.changeMode(calendarMode.WEEK);
                     }}>This week
                     </div>
                     <div onClick={() => {
-                        this.changeMode(calendarFormat.MONTH);
+                        this.changeMode(calendarMode.MONTH);
                     }}>This month
                     </div>
                 </div>
