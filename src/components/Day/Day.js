@@ -23,6 +23,9 @@ export default function Day({date, today, selectedDate, events, onSelected, ...p
         if (selectedDate && selectedDate.isSame(date, "date")) {
             containerClassNames.push(styles.selected);
         }
+        if(date.day() === 0 ||date.day() === 6){
+            containerClassNames.push(styles.holiday)
+        }
         return containerClassNames.join(' ');
     };
 

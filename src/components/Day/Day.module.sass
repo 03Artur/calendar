@@ -20,23 +20,23 @@
     border: 3pt solid $appBlue
 
   .date
-    flex: 2
     font-family: $fontFamily
     font-weight: 400
     font-size: 16pt
 
   .roundContainer
-    flex: 1
+    flex-grow: 1
     +flexContainerMiddle()
 
     .round
+
       border-radius: 50%
       background-color: red
       height: 3pt
       width: 3pt
 
   .eventContainer
-    flex: 1
+    flex-grow: 1
     +flexContainerMiddle()
 
     .event
@@ -48,6 +48,9 @@
 .selected
   color: white
   background-color: $appBlue
+
+.holiday
+  color: red
 
 .otherMonth
   color: $appGray
