@@ -48,7 +48,7 @@ export default class Calendar extends Component {
     onNextClick = () => {
         const newFirstDate = this.state.firstDate.add(1, this.state.mode).startOf(this.state.mode);
         const newLastDate = newFirstDate.clone().endOf(this.state.mode);
-        console.group('onNextClick')
+        console.group('onNextClick');
         console.log(newFirstDate.format('YYYY-MM-DD'));
         console.log(newLastDate.format('YYYY-MM-DD'));
         console.groupEnd();
@@ -74,29 +74,16 @@ export default class Calendar extends Component {
 
                                 onSelected={this.onSelectedDay}/>);
 
-    /* weekRenderOld = (date) => {
-         const dates = [];
-         for (let i = 0; i < 7; i++) {
-             if (date.day() < this.state.firstDate.day() || date.isAfter(this.state.lastDate, "date")) {
-                 dates.push(<div className={styles.fakeDay}/>);
-             } else {
-                 dates.push(this.dayRender(date.clone()));
-                 date.add(1, "d");
-             }
-         }
-         return <div className={styles.week}>{
-             dates
-         }</div>
-     }
-     ;*/
+
     weekRender = (date) => {
-        let dateBuf = date.clone().startOf('w');
+        let dateBuf = this.state.firstDate.isSame(date, "date") ? date : date.startOf("week");
+
         if (!dateBuf.isAfter(this.state.firstDate, 'date')) {
             dateBuf = this.state.firstDate.clone();
         }
 
-        const weekKey = dateBuf.format('YYYY-w');
         const dates = [];
+
         for (let i = 0; i < 7; i++) {
             if (i < dateBuf.day() || dateBuf.isAfter(this.state.lastDate, "date")) {
                 dates.push(<div key={dateBuf.format('YYYY-w') + i} className={styles.fakeDay}/>);
@@ -105,9 +92,45 @@ export default class Calendar extends Component {
                 dateBuf.add(1, "d");
             }
         }
-        return <div key={weekKey} className={styles.week}>{
+        return <div key={date.format('YYYY-w')} className={styles.week}>{
             dates
         }</div>
+
+    };
+
+
+    bodyRender = () => {
+
+        const weeks = [];
+
+
+        for (let i = 0;; i++) {
+
+            const dates = [];
+            const date = i === 0 ? this.state.firstDate.clone() : this.state.firstDate.clone().startOf('w').add(i, 'w');
+            console.log(date.format('YYYY-MM-DD'));
+            const weekKey = date.format('YYYY-w');
+            for (let j = 0; j < 7; j++) {
+                if (j < date.day() || date.isAfter(this.state.lastDate, "date")) {
+                    dates.push(<div key={date.format('YYYY-w') + j} className={styles.fakeDay}/>);
+                } else {
+                    dates.push(this.dayRender(date.clone()));
+                    date.add(1, "day");
+                }
+            }
+            weeks.push((
+                <div key={weekKey} className={styles.week}>
+                    {
+                        dates
+                    }
+                </div>
+            ));
+            if ( date.isAfter(this.state.lastDate, 'date')) {
+                console.log(weeks);
+                return weeks;
+            }
+        }
+
 
     };
 
@@ -115,9 +138,9 @@ export default class Calendar extends Component {
         let week = this.state.firstDate.week();
         const weeks = [];
 
-         while (!moment(week, 'w').startOf('w').isAfter(this.state.lastDate, 'date')){
-             weeks.push(this.weekRender(week++));
-         }
+        while (!moment(week, 'w').startOf('w').isAfter(this.state.lastDate, 'date')) {
+            weeks.push(this.weekRender(week++));
+        }
         return weeks;
     };
 
@@ -139,11 +162,10 @@ export default class Calendar extends Component {
     render() {
 
 
-
         return (
             <div className={styles.container}>
                 <Header current={this.state.firstDate.format('MMMM')}
-                    onModeChange={this.setMode}
+                        onModeChange={this.setMode}
                         onNextClick={this.onNextClick}
                         onPrevClick={this.onPrevClick}/>
                 <div className={styles.tableHeader}>
@@ -157,7 +179,7 @@ export default class Calendar extends Component {
                 </div>
 
                 {
-                    this.renderBody()
+                    this.bodyRender()
                 }
 
 
