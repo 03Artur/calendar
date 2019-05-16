@@ -12,7 +12,7 @@ import Day from '../Day/Day';
 export default class Calendar extends Component {
     constructor(props) {
         super(props);
-        const defaultFormat = calendarMode.WEEK;
+        const defaultFormat = calendarMode.MONTH;
         this.state = {
             today: moment(),
             selectedDate: null,
@@ -20,7 +20,6 @@ export default class Calendar extends Component {
             lastDate: moment().endOf(defaultFormat),
             mode: defaultFormat,
         };
-        this.weekRender(moment().week());
     }
 
 
@@ -31,9 +30,8 @@ export default class Calendar extends Component {
 
     onPrevClick = () => {
 
-        const newFirstDate = this.state.firstDate.clone().subtract(1, this.state.mode).startOf(this.state.mode);
-
-        const newLastDate = this.state.lastDate.clone().subtract(1, this.state.mode).endOf(this.state.mode);
+        const newFirstDate = this.state.firstDate.subtract(1, this.state.mode).startOf(this.state.mode);
+        const newLastDate = newFirstDate.clone().endOf(this.state.mode);
 
         if (newFirstDate.month() !== newLastDate.month()) {
             newFirstDate.month(newLastDate.month()).startOf('M')
@@ -48,11 +46,12 @@ export default class Calendar extends Component {
 
 
     onNextClick = () => {
-        const newFirstDate = this.state.firstDate.clone().add(1, this.state.mode).startOf(this.state.mode);
-        const newLastDate = this.state.lastDate.clone().add(1, this.state.mode).endOf(this.state.mode);
-        if (newFirstDate.month() !== newLastDate.month()) {
-            newLastDate.month(newFirstDate.month()).endOf('M')
-        }
+        const newFirstDate = this.state.firstDate.add(1, this.state.mode).startOf(this.state.mode);
+        const newLastDate = newFirstDate.clone().endOf(this.state.mode);
+        console.group('onNextClick')
+        console.log(newFirstDate.format('YYYY-MM-DD'));
+        console.log(newLastDate.format('YYYY-MM-DD'));
+        console.groupEnd();
         this.setState({
             firstDate: newFirstDate,
             lastDate: newLastDate,
@@ -90,19 +89,20 @@ export default class Calendar extends Component {
          }</div>
      }
      ;*/
-    weekRender = (week) => {
-        let date = moment(week, 'w').startOf('w');
-        if (!date.isAfter(this.state.firstDate, 'date')) {
-            date = this.state.firstDate.clone();
+    weekRender = (date) => {
+        let dateBuf = date.clone().startOf('w');
+        if (!dateBuf.isAfter(this.state.firstDate, 'date')) {
+            dateBuf = this.state.firstDate.clone();
         }
-        const weekKey = date.format('YYYY-w');
+
+        const weekKey = dateBuf.format('YYYY-w');
         const dates = [];
         for (let i = 0; i < 7; i++) {
-            if (i < date.day() || date.isAfter(this.state.lastDate, "date")) {
-                dates.push(<div key={date.format('YYYY-w') + i} className={styles.fakeDay}/>);
+            if (i < dateBuf.day() || dateBuf.isAfter(this.state.lastDate, "date")) {
+                dates.push(<div key={dateBuf.format('YYYY-w') + i} className={styles.fakeDay}/>);
             } else {
-                dates.push(this.dayRender(date.clone()));
-                date.add(1, "d");
+                dates.push(this.dayRender(dateBuf.clone()));
+                dateBuf.add(1, "d");
             }
         }
         return <div key={weekKey} className={styles.week}>{
@@ -117,40 +117,33 @@ export default class Calendar extends Component {
 
          while (!moment(week, 'w').startOf('w').isAfter(this.state.lastDate, 'date')){
              weeks.push(this.weekRender(week++));
-
          }
-
         return weeks;
     };
 
     setMode = (mode) => {
+        const newFD = this.state.firstDate.clone().startOf(mode);
+        const newLD = this.state.firstDate.clone().endOf(mode);
 
+        console.group('onNextClick')
+        console.log(newFD.format('YYYY-MM-DD'));
+        console.log(newLD.format('YYYY-MM-DD'));
+        console.groupEnd();
         this.setState({
             mode: mode,
-            firstDate: this.state.today.clone().startOf(mode),
-            lastDate: this.state.today.clone().endOf(mode)
+            firstDate: newFD,
+            lastDate: newLD,
         });
     };
 
     render() {
-        let currentHeaderTitle = `${this.state.firstDate.format('MMMM')}`;
-        let prevHeaderTitle = '';
-        let nextHeaderTitle = '';
-        if (this.state.mode === calendarMode.WEEK) {
-            currentHeaderTitle += ` ${this.state.firstDate.date()} - ${this.state.lastDate.date()}`;
-            prevHeaderTitle = 'PREV';
-            nextHeaderTitle = 'NEXT';
-        } else if (this.state.mode === calendarMode.MONTH) {
-            prevHeaderTitle = this.state.firstDate.clone().subtract(1, 'M').format('MMM');
-            nextHeaderTitle = this.state.firstDate.clone().add(1, 'M').format('MMM');
-        }
+
 
 
         return (
             <div className={styles.container}>
-                <Header prev={prevHeaderTitle}
-                        next={nextHeaderTitle}
-                        current={currentHeaderTitle} onModeChange={this.setMode}
+                <Header current={this.state.firstDate.format('MMMM')}
+                    onModeChange={this.setMode}
                         onNextClick={this.onNextClick}
                         onPrevClick={this.onPrevClick}/>
                 <div className={styles.tableHeader}>

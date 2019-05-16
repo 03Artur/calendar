@@ -43,8 +43,9 @@ export default class Header extends Component {
     };
 
     changeMode = (value) => {
-        this.onDropDownButtonClick();
         this.props.onModeChange(value);
+        this.onDropDownButtonClick();
+
     };
 
     renderMenu = () => {
@@ -110,7 +111,7 @@ Header.propTypes = {
 
 Header.defaultProps = {
     prev: 'PREV',
-    current: moment().format('MMMM'),
+    current: 'CURRENT',
     next: 'NEXT',
     onPrevClick: function () {
     },
