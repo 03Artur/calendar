@@ -1,1 +1,46 @@
+@import "../../constants/colors"
+@import "../../constants/fonts"
+
 .container
+  width: 100%
+  border-radius: 2px
+  background-color: $appGreen
+  color: white
+  padding: 12px 16px
+  font-family: $fontFamily
+  font-size: $fontSizeMiddle
+  font-weight: 500
+  box-sizing: border-box
+
+
+  .row
+    display: flex
+    justify-content: space-between
+
+
+  .title
+    opacity: 0.5
+    letter-spacing: -0.3px
+    line-height: 17px
+    text-transform: uppercase
+
+    .time
+      white-space: nowrap
+
+  .body
+    font-size: $fontSizeNormal
+    font-weight: 700
+    color: #FFFFFF
+    letter-spacing: -0.3px
+    line-height: 19px
+    text-align: left
+
+  .shortText
+    white-space: nowrap /* Отменяем перенос текста */
+    overflow: hidden /* Обрезаем содержимое */
+    text-overflow: ellipsis /* Многоточие */
+
+
+
+
+

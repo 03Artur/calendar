@@ -19,22 +19,19 @@ export default class Calendar extends Component {
         this.state = {
             today: today,
             selectedDate: null,
+            selectedEvents: null,
             startDate: start,
-            datesEvents: this.getDatesEvents(start, end),
             endDate: end,
+            events: this.getEvents(start, end),
             mode: defaultFormat,
         };
-        console.log(this.state.datesEvents);
     }
 
-    getDatesEvents = (start, end) => {
-        const datesEvents = new Map();
-        let date = start;
-        do {
-            datesEvents.set(date, this.props.events.find(elem => elem.date === date.format('DD.MM.YYYY')));
-            date = date.clone().add(1, 'd');
-        } while (date.isSameOrBefore(end, 'date'));
-        return datesEvents;
+    getEvents = (start, end) => {
+        return this.props.events.filter(item => {
+            const date = moment(item.date, 'DD.MM.YYYY');
+            return date.isSameOrAfter(start, "date") && date.isSameOrBefore(end, "date")
+        })
     };
 
     onSelectedDay = (date) => {
@@ -54,7 +51,7 @@ export default class Calendar extends Component {
         this.setState({
             startDate: newStartDate.startOf(this.state.mode),
             endDate: newEndDate,
-            datesEvents: this.getDatesEvents(newStartDate, newEndDate),
+            events: this.getEvents(newStartDate, newEndDate),
         })
     };
 
@@ -67,43 +64,43 @@ export default class Calendar extends Component {
     };
 
     dayRender = (date) => (<Day key={date.unix()} date={date}
-                                events={this.state.datesEvents.get(date)}
+                                events={this.state.events.find(item => item.date === date.format('DD.MM.YYYY'))}
                                 selectedDate={this.state.selectedDate} today={this.state.today}
                                 onSelected={this.onSelectedDay}/>);
 
-    bodyRender = () => {
-        const weeks = [];
-        const datesEventsKeys = this.state.datesEvents.keys();
-        let date = datesEventsKeys.next();
-        do {
+    /*    bodyRender = () => {
+            const weeks = [];
+            const datesEventsKeys = this.state.datesEvents.keys();
+            let date = datesEventsKeys.next();
+            do {
 
-            const weekDates = [];
-            const weekKey = date.value.format('YYYY-w');
+                const weekDates = [];
+                const weekKey = date.value.format('YYYY-w');
 
-            for (let i = 0; i < 7; i++) {
-                if ((!date.done && i < date.value.day()) || date.done) {
-                    weekDates.push(<div key={i} className={styles.fakeDay}/>);
-                } else  {
-                    console.log(date);
-                    weekDates.push(this.dayRender(date.value));
-                    date = datesEventsKeys.next();
+                for (let i = 0; i < 7; i++) {
+                    if ((!date.done && i < date.value.day()) || date.done) {
+                        weekDates.push(<div key={i} className={styles.fakeDay}/>);
+                    } else {
+                        console.log(date);
+                        weekDates.push(this.dayRender(date.value));
+                        date = datesEventsKeys.next();
 
-                }
-            }
-            weeks.push((
-                <div key={weekKey} className={styles.week}>
-                    {
-                        weekDates
                     }
-                </div>
-            ));
-        } while (!date.done);
+                }
+                weeks.push((
+                    <div key={weekKey} className={styles.week}>
+                        {
+                            weekDates
+                        }
+                    </div>
+                ));
+            } while (!date.done);
 
-        return weeks;
+            return weeks;
 
 
-    }
-    /*bodyRender = () => {
+        }*/
+    bodyRender = () => {
         const weeks = [];
         const date = this.state.startDate.clone();
         do {
@@ -127,17 +124,20 @@ export default class Calendar extends Component {
         }
         while (this.state.endDate.isSameOrAfter(date, 'date')) ;
         return weeks;
-    };*/
+    };
 
     setMode = (mode) => {
         const newStartDate = this.state.startDate.clone().startOf(mode);
-        const newEndDate =newStartDate.clone().endOf(mode);
+        const newEndDate = newStartDate.clone().endOf(mode);
         this.setState({
             mode: mode,
             startDate: newStartDate,
             endDate: newEndDate,
-            datesEvents: this.getDatesEvents(newStartDate,newEndDate),
+            events: this.getEvents(newStartDate, newEndDate),
         });
+    };
+    eventsRender = () => {
+        return this.state.events.map(item=>(<EventList date={moment(item.date,'DD.MM.YYYY')} events={item.events}/>));
     };
 
     render() {
@@ -159,10 +159,11 @@ export default class Calendar extends Component {
                 {
                     this.bodyRender()
                 }
-                <p onClick={() => console.log('p')}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi
-                    architecto cupiditate dolorem
-                    nesciunt obcaecati omnis perspiciatis quam sit tempore.</p>
-                <EventList events={this.state.datesEvents.values()} />
+                <div>
+                    {
+                        this.eventsRender()
+                    }
+                </div>
             </div>
         );
     }

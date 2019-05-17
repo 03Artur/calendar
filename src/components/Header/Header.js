@@ -52,13 +52,13 @@ export default class Header extends Component {
         if (this.state.isMenuOpen) {
             return (
                 <div ref={this.setDropDownContent} className={styles.dropContent}>
-                    <div onClick={() => {
+                    <div className={styles.dropDownItem} onClick={() => {
                         this.changeMode(calendarMode.WEEK);
-                    }}>This week
+                    }}><span>This week</span>
                     </div>
-                    <div onClick={() => {
+                    <div className={styles.dropDownItem} onClick={() => {
                         this.changeMode(calendarMode.MONTH);
-                    }}>This month
+                    }}><span>This month</span>
                     </div>
                 </div>
             );
