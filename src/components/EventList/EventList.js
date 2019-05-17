@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 function EventList({events, ...props}) {
 
     const renderEvents = () =>{
-
+        console.log(events);
     };
 
     return (
