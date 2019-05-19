@@ -26,13 +26,14 @@
 
   .currentContainer
     cursor: pointer
+    text-transform: uppercase
 
     .current
       margin-right: 10.5px
 
     .dropDownButton
       color: $appGray
-      opacity: 25%
+      opacity: 0.5
 
 .dropContent
   //width: 100%
@@ -46,10 +47,9 @@
   right: 0
 
   .dropDownItem
+    opacity: 0.5
     border: 1px solid #E8E9EB
-    color: #E8E9EB
     width: 118px
-    opacity: 0.25
     height: 30px
     border-radius: 15px
     display: flex
@@ -57,9 +57,16 @@
     justify-content: center
     cursor: pointer
     margin: 7px 3px
-    font-weight: 400
-    font-size: $fontSizeMiddle
-    font-family: $fontFamily
+
+    span
+      color: #E8E9EB
+      font-weight: 400
+      font-size: $fontSizeMiddle
+      font-family: $fontFamily
+      line-height: 17px
+      text-align: center
+
+
 
 
 

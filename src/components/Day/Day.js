@@ -23,14 +23,14 @@ export default function Day({date, today, selectedDate, events, onSelected, ...p
         if (selectedDate && selectedDate.isSame(date, "date")) {
             containerClassNames.push(styles.selected);
         }
-        if(date.day() === 0 ||date.day() === 6){
+        if (date.day() === 0 || date.day() === 6) {
             containerClassNames.push(styles.holiday)
         }
         return containerClassNames.join(' ');
     };
 
     return (
-        <div onClick={() => onSelected(date)}
+        <div onClick={() => onSelected(date, events)}
              className={getContainerClassNames()}>
             <div className={styles.roundContainer}>
                 {

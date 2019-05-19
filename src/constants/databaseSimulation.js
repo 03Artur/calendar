@@ -35,7 +35,7 @@ export default [
             }, {
                 name: 'Event name',
                 body: 'Event body',
-                time: '12:24',
+                time: '17:24',
             },
         ]
     },
@@ -113,7 +113,7 @@ export default [
             }, {
                 name: 'Event name',
                 body: 'Event body',
-                time: '12:24',
+                time: '17:24',
             },
         ]
     },
@@ -127,7 +127,7 @@ export default [
             }
         ]
     },
-    ,
+
     {
         date: moment().subtract(1,'M').format('DD.MM.YYYY'),
         events: [
@@ -162,7 +162,7 @@ export default [
             }, {
                 name: 'Event name',
                 body: 'Event body',
-                time: '12:24',
+                time: '17:24',
             },
         ]
     },

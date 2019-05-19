@@ -134,13 +134,5 @@ Header.propTypes = {
     mode: PropTypes.oneOf(Object.values(calendarMode)),
 };
 
-Header.defaultProps = {
-    onPrevClick: function () {
-    },
-    onNextClick: function () {
-    },
-    onModeChange: function () {
 
-    },
-};
 
